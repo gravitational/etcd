@@ -157,6 +157,22 @@ func (info TLSInfo) ServerConfig() (*tls.Config, error) {
 		cfg.ClientCAs = cp
 	}
 
+	// force TLS 1.2
+	cfg.MinVersion = tls.VersionTLS12
+
+	// Use TLS Modern capability suites
+	// https://wiki.mozilla.org/Security/Server_Side_TLS
+	cfg.CipherSuites = []uint16{
+		tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+		tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+		tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
+		tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+		tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+		tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+		tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+	}
+
 	return cfg, nil
 }
 
